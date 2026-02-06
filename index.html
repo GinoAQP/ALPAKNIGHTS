@@ -328,6 +328,76 @@
             </div>
         </section>
 
+        <!-- SALAS DE GUERRA (LIVE STREAMING) -->
+        <section id="salas" class="page-section max-w-6xl mx-auto py-8">
+            <div class="text-center mb-12">
+                <h2 class="cinzel text-4xl text-red-600 font-black uppercase tracking-[0.3em]">Salas de Guerra</h2>
+                <p class="text-[10px] text-gray-500 mt-2 tracking-[0.2em] uppercase">Sintonizando el Canal Oficial de las Alpakas</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Monitor de Video -->
+                <div class="lg:col-span-2">
+                    <div class="monitor-frame overflow-hidden rounded-lg bg-black">
+                        <div id="video-container" class="w-full h-full">
+                            <!-- YouTube Iframe -->
+                            <iframe id="main-stream" width="100%" height="100%" src="https://www.youtube.com/embed/live_stream?channel=UCu2S9P0O0g8h5pI9GInNqdw" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                    <div class="mt-4 p-4 bg-red-900/10 border border-red-600/20 rounded flex justify-between items-center">
+                        <div>
+                            <span class="cinzel text-red-600 font-bold text-sm uppercase">Estado de la Señal:</span>
+                            <span id="signal-status" class="text-xs text-white ml-2 italic tracking-widest uppercase">Encriptada / En Vivo</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="online-dot"></div>
+                            <span class="text-[10px] font-bold text-green-500 uppercase">Live</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lista de Juegos -->
+                <div class="lg:col-span-1 space-y-3">
+                    <h3 class="cinzel text-xs text-gold font-bold mb-4 uppercase tracking-widest border-b border-gold/20 pb-2">Despliegue de Unidades</h3>
+                    <div id="game-grid" class="grid grid-cols-1 gap-2">
+                        <!-- Las tarjetas se generan/actualizan por JS -->
+                        <div id="card-wow" class="game-card p-4 rounded border-l-4 border-l-blue-600 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">🛡️ WoW</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-rust" class="game-card p-4 rounded border-l-4 border-l-orange-600 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">⛺ Rust</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-tibia" class="game-card p-4 rounded border-l-4 border-l-yellow-700 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">📜 Tibia</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-hytale" class="game-card p-4 rounded border-l-4 border-l-green-600 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">⚔️ Hytale</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-albion" class="game-card p-4 rounded border-l-4 border-l-white/40 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">🐎 Albion</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-dota" class="game-card p-4 rounded border-l-4 border-l-purple-600 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">🌀 Dota 2</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-diablo" class="game-card p-4 rounded border-l-4 border-l-red-800 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">🔥 Diablo</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                        <div id="card-starcraft" class="game-card p-4 rounded border-l-4 border-l-cyan-500 flex justify-between items-center">
+                            <span class="cinzel text-xs font-bold uppercase">🚀 Starcraft</span>
+                            <span class="status-badge text-[9px] font-bold opacity-0">EN VIVO</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SALAS -->
         <section id="salas" class="page-section max-w-6xl mx-auto py-8 text-center">
             <h2 class="cinzel text-4xl mb-12 text-red-600 font-black uppercase tracking-[0.3em]">Salas de Guerra</h2>
@@ -482,3 +552,4 @@
     </script>
 </body>
 </html>
+
