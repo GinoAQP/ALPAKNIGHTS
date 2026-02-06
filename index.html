@@ -97,8 +97,9 @@
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: 0.3s;
             position: relative;
+            cursor: pointer;
         }
-        .card-honor:hover { border-color: var(--gold); transform: translateY(-5px); }
+        .card-honor:hover { border-color: var(--gold); transform: translateY(-5px); background: rgba(40, 0, 0, 0.4); }
 
         .mourning-ribbon {
             position: absolute; top: 5px; right: 5px;
@@ -125,12 +126,68 @@
             background: linear-gradient(90deg, var(--blood-red), var(--bright-red));
             box-shadow: 0 0 20px var(--bright-red);
         }
+
+        .btn-join {
+            background: var(--blood-red);
+            border-bottom: 4px solid var(--gold);
+            box-shadow: 0 10px 30px rgba(153, 0, 0, 0.4);
+            transition: all 0.3s ease;
+        }
+        .btn-join:hover {
+            background: var(--bright-red);
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(255, 26, 26, 0.5);
+        }
+
+        /* --- MODAL DE LORE --- */
+        #lore-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background: rgba(0,0,0,0.9);
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(8px);
+        }
+        .scroll-content {
+            background: #1a1a1a;
+            border: 2px solid var(--gold);
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,1);
+        }
+        .scroll-content::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 10px;
+            background: linear-gradient(to bottom, var(--gold), transparent);
+        }
+        .close-lore {
+            position: absolute; top: 15px; right: 15px; color: var(--gold);
+            font-size: 24px; cursor: pointer; transition: 0.3s;
+        }
+        .close-lore:hover { color: white; transform: rotate(90deg); }
+
     </style>
 </head>
 <body class="min-h-screen">
 
     <div class="war-gradient"></div>
     <div class="embers"></div>
+
+    <!-- MODAL DE LORE (PERGAMINO) -->
+    <div id="lore-modal" onclick="closeLore(event)">
+        <div class="scroll-content cinzel" onclick="event.stopPropagation()">
+            <span class="close-lore" onclick="document.getElementById('lore-modal').style.display='none'">&times;</span>
+            <div id="lore-body">
+                <!-- El contenido se carga dinámicamente -->
+            </div>
+        </div>
+    </div>
 
     <nav class="fixed top-0 w-full z-50 py-4 px-6">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
@@ -153,13 +210,13 @@
         <section id="inicio" class="page-section active-section max-w-4xl mx-auto text-center space-y-12 py-8">
             <div class="flex justify-center relative">
                 <div class="w-48 h-48 md:w-60 md:h-60 rounded-full border-4 border-red-700 overflow-hidden shadow-[0_0_50px_rgba(255,0,0,0.5)] animate-pulse">
-                    <img src="https://i.postimg.cc/ThTPdJ6Q/Logo-ALPK.jpg" alt="Logo" class="w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/ThTPdJ6Q/Logo-ALPK.jpg" alt="Logo de AlpaKnights" class="w-full h-full object-cover">
                 </div>
             </div>
             <div class="space-y-4">
                 <div class="max-w-xs mx-auto">
                     <div class="flex justify-between text-[10px] cinzel text-red-500 mb-1">
-                        <span>ESTADO: <span id="status-txt">ESCANEANDO FRENTES</span></span>
+                        <span>LLAMADO A LAS ARMAS: <span id="status-txt" class="uppercase italic">Afilando las hachas de batalla...</span></span>
                         <span id="perc-counter">0%</span>
                     </div>
                     <div class="loading-container">
@@ -170,45 +227,46 @@
                     ALPA<span class="text-red-600">KNIGHTS</span>
                 </h1>
             </div>
+
             <div class="bg-red-600/10 border-y-2 border-red-600 py-4">
-                <p class="cinzel text-2xl md:text-3xl font-bold tracking-widest text-white uppercase italic">Un Solo Corazón, Mil Batallas</p>
+                <p class="cinzel text-2xl md:text-4xl font-black tracking-widest text-white uppercase italic">
+                    Mil Batallas, <span class="text-red-600">Un Solo Corazón</span>
+                </p>
             </div>
+            
             <div class="pt-8">
-                <a href="https://discord.gg/8CmngSsmv7" target="_blank" class="inline-block bg-red-700 hover:bg-red-600 text-white cinzel font-black px-12 py-4 text-xl transition-all transform hover:scale-110 shadow-lg">
+                <a href="https://discord.gg/8CmngSsmv7" target="_blank" class="btn-join inline-block text-white cinzel font-black px-16 py-5 text-xl relative z-10 tracking-[0.2em] uppercase">
                     Unirse a la Hermandad
                 </a>
             </div>
         </section>
 
-        <!-- HISTORIA -->
+        <!-- HISTORIA INTERACTIVA -->
         <section id="historia" class="page-section max-w-6xl mx-auto py-8">
             <div class="text-center mb-12">
                 <h2 class="cinzel text-5xl text-red-600 font-black mb-4 uppercase">Muro de Honor</h2>
                 <div class="h-1 w-24 bg-gold mx-auto mb-6"></div>
-                <p class="text-gray-400 italic max-w-2xl mx-auto uppercase text-xs tracking-widest">Legado grabado en acero y sangre. Gloria eterna a los fundadores.</p>
+                <p class="text-gray-400 italic max-w-2xl mx-auto uppercase text-xs tracking-widest">Haz clic en un nombre para revelar su saga grabada en las runas.</p>
             </div>
 
-            <!-- CONSEJO DE JARLS -->
+            <!-- JARLS -->
             <div class="mb-16">
                 <h3 class="cinzel text-2xl text-gold mb-10 text-center tracking-widest uppercase">El Consejo de los Jarls</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-                    <!-- ASTHARTEA -->
-                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver">
+                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver" onclick="openLore('asthartea')">
                         <div class="medal-icon medal-jarl"></div>
                         <h4 class="cinzel text-xl font-bold text-white uppercase">ASTHARTEA</h4>
-                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">Fundador / Patriarca Regente</p>
+                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">El Patriarca de las Albas</p>
                     </div>
-                    <!-- DAVALO4 -->
-                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver">
+                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver" onclick="openLore('davalo4')">
                         <div class="medal-icon medal-jarl"></div>
                         <h4 class="cinzel text-xl font-bold text-white uppercase">DAVALO4</h4>
-                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">Fundador / Forjador de la Alianza</p>
+                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">Forjador de Alianzas</p>
                     </div>
-                    <!-- LOSREDONDOS -->
-                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver">
+                    <div class="card-honor p-8 rounded text-center border-t-4 border-t-silver" onclick="openLore('losredondos')">
                         <div class="medal-icon medal-jarl"></div>
                         <h4 class="cinzel text-xl font-bold text-white uppercase">LOSREDONDOS</h4>
-                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">Fundador / Maestro Estratega</p>
+                        <p class="text-[9px] text-gray-400 mt-2 uppercase tracking-widest">Señor de la Estrategia</p>
                     </div>
                 </div>
             </div>
@@ -217,24 +275,23 @@
             <div class="mb-16">
                 <h3 class="cinzel text-2xl text-amber-500 mb-8 text-center tracking-widest uppercase">Los Hersir (Comandantes)</h3>
                 <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                    <div class="card-honor p-5 rounded text-center">
+                    <div class="card-honor p-5 rounded text-center" onclick="openLore('oxz')">
                         <div class="medal-icon medal-hersir"></div>
                         <h4 class="font-bold text-sm uppercase">[OXZ]</h4>
                     </div>
-                    <div class="card-honor p-5 rounded text-center">
+                    <div class="card-honor p-5 rounded text-center" onclick="openLore('skartel')">
                         <div class="medal-icon medal-hersir"></div>
                         <h4 class="font-bold text-sm uppercase">SKARTEL</h4>
                     </div>
-                    <div class="card-honor p-5 rounded text-center">
+                    <div class="card-honor p-5 rounded text-center" onclick="openLore('melgarian0')">
                         <div class="medal-icon medal-hersir"></div>
                         <h4 class="font-bold text-sm uppercase">MELGARIAN0</h4>
                     </div>
-                    <div class="card-honor p-5 rounded text-center">
+                    <div class="card-honor p-5 rounded text-center" onclick="openLore('skelter')">
                         <div class="medal-icon medal-hersir"></div>
                         <h4 class="font-bold text-sm uppercase">SKELTER</h4>
                     </div>
-                    <!-- ELVENGADOR -->
-                    <div class="card-honor p-5 rounded text-center bg-black/90 border-gray-700">
+                    <div class="card-honor p-5 rounded text-center bg-black/90 border-gray-700" onclick="openLore('elvengador')">
                         <div class="mourning-ribbon"></div>
                         <div class="medal-icon opacity-50 grayscale" style="background: #333; clip-path: circle();"></div>
                         <h4 class="font-bold text-sm text-gray-300 uppercase">ELVENGADOR</h4>
@@ -242,28 +299,28 @@
                     </div>
                 </div>
             </div>
-
+            
             <!-- DRENGR -->
             <div>
                 <h3 class="cinzel text-xl text-gray-500 mb-8 text-center tracking-widest uppercase">Los Drengr (Guerreros)</h3>
                 <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40">
+                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40" onclick="openLore('vergonidas')">
                         <div class="medal-icon medal-drengr scale-75"></div>
                         <h4 class="text-xs font-bold uppercase">VERGONIDAS</h4>
                     </div>
-                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40">
+                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40" onclick="openLore('munuerick')">
                         <div class="medal-icon medal-drengr scale-75"></div>
                         <h4 class="text-xs font-bold uppercase">MUNUERICK</h4>
                     </div>
-                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40">
+                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40" onclick="openLore('darkeyra')">
                         <div class="medal-icon medal-drengr scale-75"></div>
                         <h4 class="text-xs font-bold uppercase">DARKEYRA</h4>
                     </div>
-                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40">
+                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40" onclick="openLore('reyes')">
                         <div class="medal-icon medal-drengr scale-75"></div>
                         <h4 class="text-xs font-bold uppercase">REYES</h4>
                     </div>
-                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40">
+                    <div class="card-honor p-4 rounded text-center bg-zinc-900/40" onclick="openLore('leesinhands')">
                         <div class="medal-icon medal-drengr scale-75"></div>
                         <h4 class="text-xs font-bold uppercase">LEESINHANDS</h4>
                     </div>
@@ -271,43 +328,18 @@
             </div>
         </section>
 
-        <!-- SALAS DE JUEGO ACTUALIZADO -->
+        <!-- SALAS -->
         <section id="salas" class="page-section max-w-6xl mx-auto py-8 text-center">
             <h2 class="cinzel text-4xl mb-12 text-red-600 font-black uppercase tracking-[0.3em]">Salas de Guerra</h2>
             <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
-                <div class="game-card p-6 rounded border-b-4 border-b-blue-600">
-                    <div class="text-4xl mb-3">🛡️</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">WoW</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-orange-600">
-                    <div class="text-4xl mb-3">⛺</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Rust</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-yellow-700">
-                    <div class="text-4xl mb-3">📜</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Tibia</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-green-600">
-                    <div class="text-4xl mb-3">⚔️</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Hytale</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-white/20">
-                    <div class="text-4xl mb-3">🐎</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Albion</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-purple-600">
-                    <div class="text-4xl mb-3">🌀</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Dota 2</h4>
-                </div>
-                <!-- NUEVOS JUEGOS -->
-                <div class="game-card p-6 rounded border-b-4 border-b-red-800">
-                    <div class="text-4xl mb-3">🔥</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Diablo</h4>
-                </div>
-                <div class="game-card p-6 rounded border-b-4 border-b-cyan-500">
-                    <div class="text-4xl mb-3">🚀</div>
-                    <h4 class="cinzel font-bold text-xs uppercase">Starcraft</h4>
-                </div>
+                <div class="game-card p-6 rounded border-b-4 border-b-blue-600">🛡️ WoW</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-orange-600">⛺ Rust</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-yellow-700">📜 Tibia</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-green-600">⚔️ Hytale</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-white/20">🐎 Albion</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-purple-600">🌀 Dota 2</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-red-800">🔥 Diablo</div>
+                <div class="game-card p-6 rounded border-b-4 border-b-cyan-500">🚀 Starcraft</div>
             </div>
         </section>
 
@@ -331,6 +363,86 @@
     </main>
 
     <script>
+        // LORE DE LOS PERSONAJES
+        const personLore = {
+            'asthartea': {
+                title: "ASTHARTEA: El Patriarca de Hierro",
+                text: "Se dice que Asthartea nació del choque entre un rayo de Thor y la cima de un glaciar. Como Jarl supremo, es quien sostiene el estandarte de los AlpaKnights. Su palabra es ley en el Consejo y su visión es la que guía a la hermandad a través de las nieblas de Midgard. Posee la sabiduría de Mimir y la fuerza de un Berserker en el campo de batalla."
+            },
+            'davalo4': {
+                title: "DAVALO4: El Forjador de Escudos",
+                text: "Encargado de las defensas y la cohesión de la tropa. Davalo4 forjó el primer pacto de los AlpaKnights en un yunque bendecido por los enanos de Svartalfheim. Su habilidad para unir a guerreros de distintos reinos es legendaria; allá donde hay caos, él construye orden y lealtad."
+            },
+            'losredondos': {
+                title: "LOSREDONDOS: El Ojo de los Cuervos",
+                text: "Nada escapa a su escrutinio. Como estratega principal, Losredondos utiliza el conocimiento de Huginn y Muninn para anticipar los movimientos del enemigo. Sus planes de batalla son tan complejos y precisos como las runas grabadas en una espada real. No lucha con fuerza bruta, sino con la victoria ya asegurada antes del primer golpe."
+            },
+            'oxz': {
+                title: "[OXZ]: El Lobo de la Vanguardia",
+                text: "Un Hersir que lidera desde el frente. Se rumorea que OXZ ha cazado más bestias en el bosque de Járnviðr que cualquier otro comandante. Su ferocidad es temida por los oponentes, pero su lealtad hacia sus Drengr es absoluta. Donde él pisa, la tierra tiembla."
+            },
+            'skartel': {
+                title: "SKARTEL: El Susurro del Invierno",
+                text: "Un comandante frío y calculador. Skartel es experto en emboscadas y ataques rápidos. Como el hielo que quiebra la roca, su liderazgo permite que la hermandad penetre en las líneas enemigas sin ser detectados hasta que es demasiado tarde."
+            },
+            'melgarian0': {
+                title: "MELGARIAN0: El Guardián del Bifröst",
+                text: "Melgarian0 asegura que el camino entre mundos siempre esté abierto para la hermandad. Es el Hersir de la logística y la exploración, siempre el primero en pisar tierras desconocidas para asegurar que el resto de los AlpaKnights lleguen con ventaja."
+            },
+            'skelter': {
+                title: "SKELTER: El Heraldo de las Runas",
+                text: "Poseedor del conocimiento de las artes antiguas. Skelter no solo lidera hombres, sino que inspira sus espíritus con cánticos de guerra que resuenan en el Valhalla. Es el puente entre la mística de la hermandad y la realidad del acero."
+            },
+            'elvengador': {
+                title: "ELVENGADOR: El Guerrero del Valhalla",
+                text: "Caído en una batalla legendaria pero nunca olvidado. Elvengador ahora cena en las mesas de Odín, esperando el Ragnarök. Su sacrificio es la llama que mantiene caliente el corazón de los AlpaKnights. Su nombre se brinda en cada banquete."
+            },
+            // LORE DE LOS DRENGR
+            'vergonidas': {
+                title: "VERGONIDAS: El Azote de las Mareas",
+                text: "Se cuenta que Vergonidas remó a través de una tormenta enviada por Jörmungandr sin soltar su hacha. Como Drengr de primera línea, su resistencia es infinita; es el primero en saltar de los barcos para reclamar la costa enemiga."
+            },
+            'munuerick': {
+                title: "MUNUERICK: El Martillo de las Cumbres",
+                text: "Munuerick posee una fuerza bruta que rivaliza con los gigantes de Jotunheim. Su maza ha derribado puertas que se creían indestructibles. Es un pilar de acero en el muro de escudos, inamovible ante cualquier carga enemiga."
+            },
+            'darkeyra': {
+                title: "DARKEYRA: La Sombra de Freyja",
+                text: "Veloz como el vuelo de un halcón, Darkeyra domina el arte de la precisión. Se dice que sus ataques son bendecidos por las Valkirias, golpeando siempre en el punto más débil de la armadura enemiga antes de que el oponente pueda siquiera reaccionar."
+            },
+            'reyes': {
+                title: "REYES: El Custodio de la Llama",
+                text: "Reyes es el encargado de mantener vivo el fuego de la moral en el campamento. En batalla, su presencia infunde un valor sobrenatural a sus hermanos de armas, como si las antorchas de Muspelheim ardieran en su espíritu."
+            },
+            'leesinhands': {
+                title: "LEESINHANDS: El Guerrero del Viento",
+                text: "Combate con una agilidad que desafía las leyes naturales, como si Njörðr guiara sus movimientos. Leesinhands es capaz de esquivar lluvias de flechas y responder con contraataques letales, convirtiendo la defensa en una danza de muerte."
+            }
+        };
+
+        function openLore(key) {
+            const lore = personLore[key];
+            if (!lore) return;
+            
+            const body = document.getElementById('lore-body');
+            body.innerHTML = `
+                <h2 class="text-3xl text-red-600 font-black mb-6 border-b-2 border-gold pb-2 uppercase">${lore.title}</h2>
+                <p class="text-lg leading-relaxed text-gray-200 italic first-letter:text-5xl first-letter:text-gold first-letter:mr-3 first-letter:float-left">
+                    ${lore.text}
+                </p>
+                <div class="mt-8 pt-6 border-t border-zinc-800 text-center">
+                    <p class="text-xs text-gold uppercase tracking-[0.3em]">Grabado en las crónicas de AlpaKnights</p>
+                </div>
+            `;
+            document.getElementById('lore-modal').style.display = 'flex';
+        }
+
+        function closeLore(e) {
+            if (e.target.id === 'lore-modal') {
+                document.getElementById('lore-modal').style.display = 'none';
+            }
+        }
+
         function showSection(sectionId) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
             document.getElementById(sectionId).classList.add('active-section');
@@ -338,18 +450,29 @@
             window.scrollTo(0, 0);
         }
 
+        const loadingPhrases = [
+            "Escuchando el eco de los tambores...",
+            "Consultando las runas del destino...",
+            "Afilando las hachas de batalla...",
+            "Relatando gestas heroicas...",
+            "Invocando el favor de los antiguos..."
+        ];
+
         function startLoading() {
             const percCounter = document.getElementById('perc-counter');
             const barFill = document.getElementById('bar-fill');
             const statusTxt = document.getElementById('status-txt');
             let progress = 0;
+            
+            statusTxt.innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
+
             if(window.loadInterval) clearInterval(window.loadInterval);
             window.loadInterval = setInterval(() => {
                 progress += Math.floor(Math.random() * 3) + 1;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(window.loadInterval);
-                    statusTxt.innerText = "SISTEMAS LISTOS PARA LA CARGA";
+                    statusTxt.innerText = "¡PREPARADOS PARA LA GLORIA!";
                 }
                 if(percCounter) percCounter.innerText = `${progress}%`;
                 if(barFill) barFill.style.width = `${progress}%`;
