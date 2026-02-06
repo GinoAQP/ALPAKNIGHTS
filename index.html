@@ -453,280 +453,56 @@
             </div>
         </section>
 
-        <!-- SALAS DE GUERRA -->
-        <section id="salas" class="page-section max-w-[95%] mx-auto py-4">
+        <!-- SALAS DE GUERRA (Monitor Táctico Integrado) -->
+        <section id="salas" class="page-section max-w-[95%] mx-auto py-8">
+            <div class="mb-8 border-b border-red-900/30 pb-4 flex justify-between items-end">
+                <div>
+                    <h2 class="cinzel text-4xl text-white font-black uppercase tracking-widest">Salas de <span class="text-red-600">Guerra</span></h2>
+                    <div class="flex items-center space-x-2 mt-2">
+                        <div id="status-light-mon" class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_#2ecc71]"></div>
+                        <span class="text-[10px] text-green-500 font-bold uppercase tracking-widest italic">Sincronización Activa</span>
+                    </div>
+                </div>
+                <div class="text-right font-mono text-[10px] text-gray-500">
+                    <p>CANAL: UCSLSTkUrO0rvVc-ZU1lIkNg</p>
+                    <p id="ak-time">--:--:--</p>
+                </div>
+            </div>
+
             <div class="flex flex-col xl:flex-row gap-6">
-               <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --gold: #d4af37;
-            --blood-red: #990000;
-            --bright-red: #ff1a1a;
-            --dark-bg: #030303;
-            --online-green: #2ecc71;
-        }
-        body {
-            background-color: var(--dark-bg);
-            color: white;
-            font-family: 'Montserrat', sans-serif;
-            overflow: hidden; /* Evita scroll innecesario para enfoque en monitor */
-        }
-        .cinzel { font-family: 'Cinzel', serif; }
-        
-        .war-gradient {
-            background: radial-gradient(circle at center, rgba(153, 0, 0, 0.2) 0%, rgba(0,0,0,1) 90%);
-            position: fixed; inset: 0; z-index: -1;
-        }
-
-        /* Monitor Gigante */
-        .monitor-container {
-            width: 100%;
-            max-width: 1600px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .monitor-frame {
-            background: #000;
-            border: 4px solid #1a1a1a;
-            box-shadow: 0 0 50px rgba(0, 0, 0, 1), 0 0 20px rgba(153, 0, 0, 0.2);
-            position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            overflow: hidden;
-            border-radius: 4px;
-        }
-
-        .monitor-frame iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Estilo de Tarjetas Lateral */
-        .game-card {
-            background: rgba(10, 10, 10, 0.8);
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            cursor: pointer;
-            position: relative;
-        }
-        .game-card:hover {
-            border-color: var(--blood-red);
-            background: rgba(40, 0, 0, 0.4);
-        }
-        
-        .game-online {
-            border-color: var(--online-green) !important;
-            background: rgba(46, 204, 113, 0.05) !important;
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.15);
-        }
-
-        .online-dot {
-            width: 10px; height: 10px;
-            background-color: var(--online-green);
-            border-radius: 50%;
-            box-shadow: 0 0 12px var(--online-green);
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.6; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .custom-scroll::-webkit-scrollbar { width: 3px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: var(--blood-red); }
-
-        /* Overlay de interfaz táctica */
-        .scanner-line {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 2px;
-            background: rgba(255, 0, 0, 0.1);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            z-index: 10;
-            pointer-events: none;
-            animation: scan 4s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { top: 0%; }
-            100% { top: 100%; }
-        }
-    </style>
-</head>
-<body class="h-screen flex flex-col">
-
-    <div class="war-gradient"></div>
-
-    <!-- Navegación Minimalista -->
-    <nav class="w-full z-50 py-3 px-8 bg-black/80 border-b border-red-900/50 backdrop-blur-md">
-        <div class="max-w-[1800px] mx-auto flex justify-between items-center">
-            <div class="cinzel text-2xl font-black tracking-widest flex items-center">
-                ALPA<span class="text-red-600">KNIGHTS</span>
-                <span class="ml-4 h-4 w-[1px] bg-white/20"></span>
-                <span class="text-[10px] text-gray-400 ml-4 font-sans tracking-[0.4em]">SISTEMA DE MONITOREO EN VIVO</span>
-            </div>
-            <div id="global-status" class="flex items-center space-x-3">
-                <span class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">Estado del Canal:</span>
-                <div id="status-light" class="w-3 h-3 rounded-full bg-gray-600"></div>
-                <span id="status-text" class="text-[10px] font-bold text-gray-500 uppercase">Verificando...</span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Contenedor Principal (Layout de Monitor Grande) -->
-    <main class="flex-grow flex flex-col lg:flex-row p-4 gap-4 overflow-hidden">
-        
-        <!-- Área del Monitor (Izquierda - Dominante) -->
-        <div class="flex-grow flex flex-col">
-            <div class="monitor-container flex-grow relative group">
-                <!-- Marco del Monitor -->
-                <div class="monitor-frame shadow-2xl">
-                    <div class="scanner-line"></div>
-                    <!-- El iframe usa el canal de YouTube de AlpaKnights -->
-                    <iframe id="main-stream" 
-                            src="https://www.youtube.com/embed/live_stream?channel=UCSLSTkUrO0rvVc-ZU1lIkNg&autoplay=1&mute=1&rel=0" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                    </iframe>
-                </div>
-                
-                <!-- Datos de Telemetría Inferior -->
-                <div class="mt-4 flex justify-between items-end border-t border-white/5 pt-2">
-                    <div class="flex gap-8">
-                        <div>
-                            <p class="text-[9px] text-gray-500 font-bold uppercase">Fuente de Datos</p>
-                            <p class="text-xs cinzel text-red-500">YouTube HQ Stream</p>
-                        </div>
-                        <div>
-                            <p class="text-[9px] text-gray-500 font-bold uppercase">Resolución</p>
-                            <p class="text-xs font-mono">1920x1080 AUTO</p>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-[9px] text-gray-500 font-bold uppercase">Sincronización</p>
-                        <p id="timestamp" class="text-xs font-mono text-gold italic">--:--:--</p>
+                <!-- Monitor Principal -->
+                <div class="xl:flex-grow">
+                    <div class="relative bg-black border-4 border-[#1a1a1a] rounded overflow-hidden shadow-2xl" style="aspect-ratio: 16/9;">
+                        <iframe id="main-stream" 
+                                class="absolute inset-0 w-full h-full"
+                                src="https://www.youtube.com/embed/live_stream?channel=UCSLSTkUrO0rvVc-ZU1lIkNg&autoplay=1&mute=1&rel=0" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                        </iframe>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- Sidebar de Juegos (Derecha - Compacta) -->
-        <div class="w-full lg:w-72 flex flex-col bg-black/40 border border-white/5 p-4 rounded backdrop-blur-sm">
-            <h3 class="cinzel text-[11px] text-gold font-bold mb-4 uppercase tracking-[0.2em] border-b border-gold/20 pb-2">Unidades Activas</h3>
-            
-            <div id="game-grid" class="flex flex-col gap-2 overflow-y-auto custom-scroll pr-1">
-                <!-- RUST PREDETERMINADO -->
-                <div id="card-rust" class="game-card p-3 rounded-sm border-l-2 border-l-orange-600 flex justify-between items-center" onclick="changeGame('rust')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">⛺ Rust</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-
-                <div id="card-wow" class="game-card p-3 rounded-sm border-l-2 border-l-blue-600 flex justify-between items-center" onclick="changeGame('wow')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">🛡️ WoW</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-                
-                <div id="card-starcraft" class="game-card p-3 rounded-sm border-l-2 border-l-cyan-500 flex justify-between items-center" onclick="changeGame('starcraft')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">🚀 StarCraft II</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-
-                <div id="card-diablo" class="game-card p-3 rounded-sm border-l-2 border-l-red-900 flex justify-between items-center" onclick="changeGame('diablo')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">🔥 Diablo IV</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-
-                <div id="card-hytale" class="game-card p-3 rounded-sm border-l-2 border-l-green-500 flex justify-between items-center" onclick="changeGame('hytale')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">⚔️ Hytale</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-
-                <div id="card-tibia" class="game-card p-3 rounded-sm border-l-2 border-l-yellow-700 flex justify-between items-center" onclick="changeGame('tibia')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">📜 Tibia</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
-                </div>
-                
-                <div id="card-albion" class="game-card p-3 rounded-sm border-l-2 border-l-white flex justify-between items-center" onclick="changeGame('albion')">
-                    <span class="cinzel text-[10px] font-bold uppercase tracking-wider">🐎 Albion Online</span>
-                    <div class="online-indicator hidden"><div class="online-dot"></div></div>
+                <!-- Lista de Unidades Lateral -->
+                <div class="xl:w-72 flex flex-col gap-2 bg-black/40 p-4 border border-white/5 rounded">
+                    <h3 class="cinzel text-[11px] text-gold font-bold mb-4 uppercase tracking-[0.2em] border-l-2 border-red-600 pl-3">Despliegue</h3>
+                    <div class="flex flex-col gap-2 overflow-y-auto max-h-[400px] custom-scroll pr-2">
+                        <div class="p-3 bg-red-900/10 border border-red-600/30 rounded flex justify-between items-center">
+                            <span class="cinzel text-[10px] font-bold uppercase">⛺ Rust</span>
+                            <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_5px_#2ecc71]"></div>
+                        </div>
+                        <div class="p-3 bg-blue-900/10 border border-blue-600/30 rounded flex justify-between items-center opacity-60">
+                            <span class="cinzel text-[10px] font-bold uppercase">🛡️ WoW</span>
+                            <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                        </div>
+                        <div class="p-3 bg-yellow-900/10 border border-yellow-600/30 rounded flex justify-between items-center opacity-60">
+                            <span class="cinzel text-[10px] font-bold uppercase">📜 Tibia</span>
+                            <div class="w-2 h-2 bg-gray-600 rounded-full"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- Footer Informativo -->
-            <div class="mt-auto pt-4 border-t border-white/5">
-                <div class="bg-red-900/10 p-2 rounded border border-red-900/30">
-                    <p class="text-[8px] text-red-400 font-bold uppercase">Aviso de Sistema</p>
-                    <p class="text-[9px] text-gray-400 leading-tight">Detección automática de stream habilitada. Rust fijado como protocolo base.</p>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        const CHANNEL_ID = 'UCSLSTkUrO0rvVc-ZU1lIkNg';
-        let currentGame = 'rust';
-
-        // Actualiza el reloj de telemetría
-        function updateClock() {
-            const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ":" + 
-                         now.getMinutes().toString().padStart(2, '0') + ":" + 
-                         now.getSeconds().toString().padStart(2, '0');
-            document.getElementById('timestamp').innerText = `GMT+0 | ${time}`;
-        }
-
-        // Simula la detección automática de YouTube
-        // Nota: En una web real sin servidor, usamos un truco de validación de imagen 
-        // o simplemente asumimos el estado para efectos visuales de la interfaz.
-        function checkLiveStatus() {
-            const statusLight = document.getElementById('status-light');
-            const statusText = document.getElementById('status-text');
-            
-            // Simulación de detección: En producción, aquí se llamaría a la API de YouTube
-            // Para la demostración, activamos el modo "En Vivo" automático.
-            setTimeout(() => {
-                statusLight.className = "w-3 h-3 rounded-full bg-green-500 shadow-[0_0_10px_#2ecc71]";
-                statusText.innerText = "EN VIVO";
-                statusText.className = "text-[10px] font-bold text-green-500 uppercase";
-                
-                highlightGame(currentGame);
-            }, 2000);
-        }
-
-        function highlightGame(gameId) {
-            // Limpiar otros
-            document.querySelectorAll('.game-card').forEach(card => {
-                card.classList.remove('game-online');
-                card.querySelector('.online-indicator').classList.add('hidden');
-            });
-
-            // Activar actual
-            const activeCard = document.getElementById(`card-${gameId}`);
-            if (activeCard) {
-                activeCard.classList.add('game-online');
-                activeCard.querySelector('.online-indicator').classList.remove('hidden');
-            }
-        }
-
-        function changeGame(gameId) {
-            currentGame = gameId;
-            highlightGame(gameId);
-            // Opcional: Podrías cambiar el iframe si tuvieras URLs específicas por juego
-        }
-
-        setInterval(updateClock, 1000);
-        window.onload = () => {
-            updateClock();
-            checkLiveStatus();
-        };
-    </script>
+        </section>
     </main>
 
     <script>
@@ -764,7 +540,6 @@
                 title: "ELVENGADOR: El Guerrero del Valhalla",
                 text: "Caído en una batalla legendaria pero nunca olvidado. Elvengador ahora cena en las mesas de Odín, esperando el Ragnarök. Su sacrificio es la llama que mantiene caliente el corazón de los AlpaKnights. Su nombre se brinda en cada banquete."
             },
-            // LORE DE LOS DRENGR
             'vergonidas': {
                 title: "VERGONIDAS: El Azote de las Mareas",
                 text: "Se cuenta que Vergonidas remó a través de una tormenta enviada por Jörmungandr sin soltar su hacha. Como Drengr de primera línea, su resistencia es infinita; es el primero en saltar de los barcos para reclamar la costa enemiga."
@@ -831,7 +606,7 @@
             const statusTxt = document.getElementById('status-txt');
             let progress = 0;
             
-            statusTxt.innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
+            if(statusTxt) statusTxt.innerText = loadingPhrases[Math.floor(Math.random() * loadingPhrases.length)];
 
             if(window.loadInterval) clearInterval(window.loadInterval);
             window.loadInterval = setInterval(() => {
@@ -839,12 +614,18 @@
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(window.loadInterval);
-                    statusTxt.innerText = "¡PREPARADOS PARA LA GLORIA!";
+                    if(statusTxt) statusTxt.innerText = "¡PREPARADOS PARA LA GLORIA!";
                 }
                 if(percCounter) percCounter.innerText = `${progress}%`;
                 if(barFill) barFill.style.width = `${progress}%`;
             }, 50);
         }
+
+        setInterval(() => {
+            const clock = document.getElementById('ak-time');
+            if(clock) clock.innerText = new Date().toLocaleTimeString();
+        }, 1000);
+
         window.onload = startLoading;
     </script>
 </body>
