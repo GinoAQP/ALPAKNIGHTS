@@ -109,10 +109,44 @@
             box-shadow: 0 0 10px rgba(0,0,0,1); z-index: 10;
         }
 
-        .game-card {
-            background: linear-gradient(145deg, #1a0000, #0a0a0a);
-            border: 1px solid rgba(255,0,0,0.2);
-            transition: all 0.4s;
+/* --- EVENTOS Y SCROLL --- */
+        .event-card {
+            background: rgba(20, 20, 20, 0.8);
+            border-left: 4px solid var(--blood-red);
+            transition: 0.3s;
+        }
+        .event-card:hover {
+            background: rgba(40, 0, 0, 0.3);
+            border-left-color: var(--bright-red);
+        }
+        .game-tag {
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .events-scroll-container {
+            max-height: 600px;
+            overflow-y: auto;
+            padding-right: 15px;
+        }
+
+        /* Estilización de Scrollbar Personalizada */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: var(--blood-red);
+            border-radius: 10px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: var(--bright-red);
         }
 
         .loading-container {
@@ -815,6 +849,7 @@
     </script>
 </body>
 </html>
+
 
 
 
